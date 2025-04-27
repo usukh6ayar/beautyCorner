@@ -29,15 +29,15 @@ const ProfileScreen = () => {
         {renderSection("Phone", user.phone)}
 
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Edit Profile</Text>
+          <Text style={styles.buttonText}>Хувийн мэдээлэл</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>My Favorites</Text>
+          <Text style={styles.buttonText}>Миний дуртай</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.button, styles.logoutButton]}>
-          <Text style={[styles.buttonText, styles.logoutText]}>Log Out</Text>
+          <Text style={[styles.buttonText, styles.logoutText]}>Гарах</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

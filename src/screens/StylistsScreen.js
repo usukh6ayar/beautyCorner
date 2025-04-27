@@ -29,22 +29,20 @@ const StylistsScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Our Stylists</Text>
-          <Text style={styles.headerSubtitle}>
-            Meet our experienced professionals
-          </Text>
-        </View>
-
-        <FlatList
-          data={stylists}
-          renderItem={renderStylist}
-          keyExtractor={(item) => item.id.toString()}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.listContainer}
-        />
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Стилистууд</Text>
+        <Text style={styles.headerSubtitle}>
+          Туршлагатай мэргэжилтнүүдээс сонгох
+        </Text>
       </View>
+
+      <FlatList
+        data={stylists}
+        renderItem={renderStylist}
+        keyExtractor={(item) => item.id.toString()}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContainer}
+      />
     </SafeAreaView>
   );
 };

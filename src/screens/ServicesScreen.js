@@ -14,39 +14,35 @@ const ServicesScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Our Services</Text>
-          <Text style={styles.headerSubtitle}>
-            Choose from our wide range of beauty services
-          </Text>
-        </View>
-
-        {/* Categories and Services */}
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {categories.map((category) => (
-            <View key={category} style={styles.categorySection}>
-              <Text style={styles.categoryTitle}>
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </Text>
-              <View style={styles.servicesGrid}>
-                {services
-                  .filter((service) => service.category === category)
-                  .map((service) => (
-                    <ServiceCard
-                      key={service.id}
-                      service={service}
-                      onPress={() =>
-                        navigation.navigate("Booking", { service })
-                      }
-                    />
-                  ))}
-              </View>
-            </View>
-          ))}
-        </ScrollView>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Үйлчилгээнүүд</Text>
+        <Text style={styles.headerSubtitle}>
+          Манай олон төрлийн гоо сайхны үйлчилгээнүүдээс сонгоорой
+        </Text>
       </View>
+
+      {/* Categories and Services */}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {categories.map((category) => (
+          <View key={category} style={styles.categorySection}>
+            <Text style={styles.categoryTitle}>
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </Text>
+            <View style={styles.servicesGrid}>
+              {services
+                .filter((service) => service.category === category)
+                .map((service) => (
+                  <ServiceCard
+                    key={service.id}
+                    service={service}
+                    onPress={() => navigation.navigate("Booking", { service })}
+                  />
+                ))}
+            </View>
+          </View>
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 };

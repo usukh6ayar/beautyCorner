@@ -12,11 +12,11 @@ import { appointments } from "../mockData/appointments";
 const AppointmentsScreen = () => {
   const getStatusColor = (status) => {
     switch (status) {
-      case "confirmed":
+      case "Баталгаажсан":
         return "#4CAF50";
-      case "pending":
+      case "Хүлээгдэж байна":
         return "#FFC107";
-      case "completed":
+      case "Дууссан":
         return "#9E9E9E";
       default:
         return "#666";
@@ -25,43 +25,38 @@ const AppointmentsScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>My Appointments</Text>
-          <Text style={styles.headerSubtitle}>
-            Manage your upcoming appointments
-          </Text>
-        </View>
-
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {appointments.map((appointment) => (
-            <TouchableOpacity
-              key={appointment.id}
-              style={styles.appointmentCard}
-            >
-              <View style={styles.appointmentHeader}>
-                <Text style={styles.date}>{appointment.date}</Text>
-                <Text
-                  style={[
-                    styles.status,
-                    { color: getStatusColor(appointment.status) },
-                  ]}
-                >
-                  {appointment.status.charAt(0).toUpperCase() +
-                    appointment.status.slice(1)}
-                </Text>
-              </View>
-              <View style={styles.appointmentDetails}>
-                <Text style={styles.time}>{appointment.time}</Text>
-                <Text style={styles.duration}>
-                  Duration: {appointment.duration} min
-                </Text>
-                <Text style={styles.price}>Price: ₮{appointment.price}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>My Appointments</Text>
+        <Text style={styles.headerSubtitle}>
+          Manage your upcoming appointments
+        </Text>
       </View>
+
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {appointments.map((appointment) => (
+          <TouchableOpacity key={appointment.id} style={styles.appointmentCard}>
+            <View style={styles.appointmentHeader}>
+              <Text style={styles.date}>{appointment.date}</Text>
+              <Text
+                style={[
+                  styles.status,
+                  { color: getStatusColor(appointment.status) },
+                ]}
+              >
+                {appointment.status.charAt(0).toUpperCase() +
+                  appointment.status.slice(1)}
+              </Text>
+            </View>
+            <View style={styles.appointmentDetails}>
+              <Text style={styles.time}>{appointment.time}</Text>
+              <Text style={styles.duration}>
+                Duration: {appointment.duration} min
+              </Text>
+              <Text style={styles.price}>Price: ₮{appointment.price}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 };
