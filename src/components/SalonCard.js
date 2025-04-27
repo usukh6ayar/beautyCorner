@@ -17,7 +17,7 @@ const SalonCard = ({ salon }) => {
         <View style={styles.infoRow}>
           <Ionicons name="star" size={14} color="#FFD700" />
           <Text style={styles.rating}>{salon.rating}</Text>
-          <Text style={styles.reviews}>({salon.reviews} reviews)</Text>
+          <Text style={styles.reviews}>({salon.reviews} сэтгэгдэл)</Text>
         </View>
       </View>
     </TouchableOpacity>

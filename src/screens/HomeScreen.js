@@ -27,9 +27,9 @@ const HomeScreen = ({ navigation }) => {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.greeting}>Hello, Jessica!</Text>
+            <Text style={styles.greeting}>Сайн уу, Өсөхбаяр!</Text>
             <Text style={styles.subtitle}>
-              Find and book your beauty services
+              Гоо сайхны үйлчилгээгээ одоо захиалаарай
             </Text>
           </View>
           <TouchableOpacity
@@ -46,15 +46,15 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => console.log("Search")}
         >
           <Ionicons name="search" size={20} color="#999" />
-          <Text style={styles.searchText}>Search salons, services...</Text>
+          <Text style={styles.searchText}>Салон, үйлчилгээ хайх...</Text>
         </TouchableOpacity>
 
         {/* Featured Salons */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Featured Salons</Text>
+            <Text style={styles.sectionTitle}>Онцлох салонууд</Text>
             <TouchableOpacity onPress={() => navigation.navigate("Services")}>
-              <Text style={styles.seeAllText}>See All</Text>
+              <Text style={styles.seeAllText}>Бүгд</Text>
             </TouchableOpacity>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -67,9 +67,9 @@ const HomeScreen = ({ navigation }) => {
         {/* Popular Services */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Popular Services</Text>
+            <Text style={styles.sectionTitle}>Их болуулалттай үйлчилгээ</Text>
             <TouchableOpacity onPress={() => navigation.navigate("Services")}>
-              <Text style={styles.seeAllText}>See All</Text>
+              <Text style={styles.seeAllText}>Бүгд</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.serviceGrid}>
@@ -86,7 +86,7 @@ const HomeScreen = ({ navigation }) => {
         {/* Top Stylists */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Top Stylists</Text>
+            <Text style={styles.sectionTitle}>Шилдэг</Text>
             <TouchableOpacity onPress={() => navigation.navigate("Stylists")}>
               <Text style={styles.seeAllText}>See All</Text>
             </TouchableOpacity>
@@ -105,12 +105,12 @@ const HomeScreen = ({ navigation }) => {
             style={styles.promotionImage}
           />
           <View style={styles.promotionContent}>
-            <Text style={styles.promotionTitle}>Special Offer</Text>
+            <Text style={styles.promotionTitle}>Тусгай санал</Text>
             <Text style={styles.promotionDescription}>
-              Get 20% off on all hair services this week!
+              Энэ долоо хоногт үсний бүх үйлчилгээндээ 20%-ийн хямдрал аваарай!
             </Text>
             <TouchableOpacity style={styles.promotionButton}>
-              <Text style={styles.promotionButtonText}>Book Now</Text>
+              <Text style={styles.promotionButtonText}>Захиалах</Text>
             </TouchableOpacity>
           </View>
         </View>
