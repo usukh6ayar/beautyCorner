@@ -51,7 +51,7 @@ const AppointmentsScreen = () => {
               <Text style={styles.duration}>
                 Duration: {appointment.duration} min
               </Text>
-              <Text style={styles.price}>Price: ${appointment.price}</Text>
+              <Text style={styles.price}>Price: ₮{appointment.price}</Text>
             </View>
           </TouchableOpacity>
         ))}

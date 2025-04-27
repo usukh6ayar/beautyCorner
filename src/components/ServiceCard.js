@@ -8,7 +8,7 @@ const ServiceCard = ({ service, onPress }) => {
       <View style={styles.content}>
         <Text style={styles.name}>{service.name}</Text>
         <View style={styles.priceContainer}>
-          <Text style={styles.price}>${service.price}</Text>
+          <Text style={styles.price}>₮{service.price}</Text>
           <Text style={styles.duration}>{service.duration} min</Text>
         </View>
       </View>
