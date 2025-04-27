@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import { stylists } from "../mockData/stylists";
 
@@ -27,22 +28,24 @@ const StylistsScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Our Stylists</Text>
-        <Text style={styles.headerSubtitle}>
-          Meet our experienced professionals
-        </Text>
-      </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Our Stylists</Text>
+          <Text style={styles.headerSubtitle}>
+            Meet our experienced professionals
+          </Text>
+        </View>
 
-      <FlatList
-        data={stylists}
-        renderItem={renderStylist}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.listContainer}
-      />
-    </View>
+        <FlatList
+          data={stylists}
+          renderItem={renderStylist}
+          keyExtractor={(item) => item.id.toString()}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.listContainer}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 

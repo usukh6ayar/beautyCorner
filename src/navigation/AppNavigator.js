@@ -9,6 +9,7 @@ const AppNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
+        headerShown: false,
         headerStyle: {
           backgroundColor: "#fff",
           elevation: 0,

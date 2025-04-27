@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import { appointments } from "../mockData/appointments";
 
@@ -23,40 +24,45 @@ const AppointmentsScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>My Appointments</Text>
-        <Text style={styles.headerSubtitle}>
-          Manage your upcoming appointments
-        </Text>
-      </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>My Appointments</Text>
+          <Text style={styles.headerSubtitle}>
+            Manage your upcoming appointments
+          </Text>
+        </View>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {appointments.map((appointment) => (
-          <TouchableOpacity key={appointment.id} style={styles.appointmentCard}>
-            <View style={styles.appointmentHeader}>
-              <Text style={styles.date}>{appointment.date}</Text>
-              <Text
-                style={[
-                  styles.status,
-                  { color: getStatusColor(appointment.status) },
-                ]}
-              >
-                {appointment.status.charAt(0).toUpperCase() +
-                  appointment.status.slice(1)}
-              </Text>
-            </View>
-            <View style={styles.appointmentDetails}>
-              <Text style={styles.time}>{appointment.time}</Text>
-              <Text style={styles.duration}>
-                Duration: {appointment.duration} min
-              </Text>
-              <Text style={styles.price}>Price: ₮{appointment.price}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {appointments.map((appointment) => (
+            <TouchableOpacity
+              key={appointment.id}
+              style={styles.appointmentCard}
+            >
+              <View style={styles.appointmentHeader}>
+                <Text style={styles.date}>{appointment.date}</Text>
+                <Text
+                  style={[
+                    styles.status,
+                    { color: getStatusColor(appointment.status) },
+                  ]}
+                >
+                  {appointment.status.charAt(0).toUpperCase() +
+                    appointment.status.slice(1)}
+                </Text>
+              </View>
+              <View style={styles.appointmentDetails}>
+                <Text style={styles.time}>{appointment.time}</Text>
+                <Text style={styles.duration}>
+                  Duration: {appointment.duration} min
+                </Text>
+                <Text style={styles.price}>Price: ₮{appointment.price}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 

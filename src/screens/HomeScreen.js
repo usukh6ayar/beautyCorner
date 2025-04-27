@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,23 +7,46 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
 import { salons } from "../mockData/salons";
 import { services } from "../mockData/services";
 import { stylists } from "../mockData/stylists";
+import { categories } from "../mockData/categories";
+
 import SalonCard from "../components/SalonCard";
 import ServiceCard from "../components/ServiceCard";
 import StylistCard from "../components/StylistCard";
+import CategoryCard from "../components/CategoryCard";
 
 const HomeScreen = ({ navigation }) => {
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
   const featuredSalons = salons.filter((salon) => salon.featured);
-  const popularServices = services.slice(0, 4);
+  const filteredServices =
+    selectedCategory === "all"
+      ? services.slice(0, 4)
+      : services
+          .filter((service) => service.category === selectedCategory)
+          .slice(0, 4);
   const topStylists = stylists.slice(0, 3);
+
+  const renderCategoryItem = ({ item }) => (
+    <CategoryCard
+      category={item}
+      isSelected={selectedCategory === item.id}
+      onPress={() => setSelectedCategory(item.id)}
+    />
+  );
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      >
         {/* Header */}
         <View style={styles.header}>
           <View>
@@ -37,43 +60,51 @@ const HomeScreen = ({ navigation }) => {
             onPress={() => console.log("Notifications")}
           >
             <Ionicons name="notifications-outline" size={24} color="#333" />
+            <View style={styles.notificationBadge} />
           </TouchableOpacity>
         </View>
 
-        {/* Search Bar */}
+        {/* Search */}
         <TouchableOpacity
           style={styles.searchBar}
-          onPress={() => console.log("Search")}
+          onPress={() => navigation.navigate("Search")}
         >
           <Ionicons name="search" size={20} color="#999" />
           <Text style={styles.searchText}>Салон, үйлчилгээ хайх...</Text>
         </TouchableOpacity>
 
+        {/* Categories */}
+        <FlatList
+          data={[
+            { id: "all", name: "Бүгд", icon: "grid-outline" },
+            ...categories,
+          ]}
+          renderItem={renderCategoryItem}
+          keyExtractor={(item) => item.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.categoryList}
+        />
+
         {/* Featured Salons */}
-        <View style={styles.sectionContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Онцлох салонууд</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Services")}>
-              <Text style={styles.seeAllText}>Бүгд</Text>
-            </TouchableOpacity>
-          </View>
+        <Section
+          title="Онцлох салонууд"
+          onPress={() => navigation.navigate("Services")}
+        >
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {featuredSalons.map((salon) => (
               <SalonCard key={salon.id} salon={salon} />
             ))}
           </ScrollView>
-        </View>
+        </Section>
 
         {/* Popular Services */}
-        <View style={styles.sectionContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Их болуулалттай үйлчилгээ</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Services")}>
-              <Text style={styles.seeAllText}>Бүгд</Text>
-            </TouchableOpacity>
-          </View>
+        <Section
+          title="Их борлуулалттай үйлчилгээ"
+          onPress={() => navigation.navigate("Services")}
+        >
           <View style={styles.serviceGrid}>
-            {popularServices.map((service) => (
+            {filteredServices.map((service) => (
               <ServiceCard
                 key={service.id}
                 service={service}
@@ -81,22 +112,19 @@ const HomeScreen = ({ navigation }) => {
               />
             ))}
           </View>
-        </View>
+        </Section>
 
         {/* Top Stylists */}
-        <View style={styles.sectionContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Шилдэг</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Stylists")}>
-              <Text style={styles.seeAllText}>See All</Text>
-            </TouchableOpacity>
-          </View>
+        <Section
+          title="Шилдэг мэргэжилтнүүд"
+          onPress={() => navigation.navigate("Stylists")}
+        >
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {topStylists.map((stylist) => (
               <StylistCard key={stylist.id} stylist={stylist} />
             ))}
           </ScrollView>
-        </View>
+        </Section>
 
         {/* Promotions */}
         <View style={styles.promotionContainer}>
@@ -118,6 +146,21 @@ const HomeScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+// Section Component
+const Section = ({ title, children, onPress }) => (
+  <View style={styles.sectionContainer}>
+    <View style={styles.sectionHeader}>
+      <Text style={styles.sectionTitle}>{title}</Text>
+      {onPress && (
+        <TouchableOpacity onPress={onPress}>
+          <Text style={styles.seeAllText}>Бүгд</Text>
+        </TouchableOpacity>
+      )}
+    </View>
+    {children}
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -150,6 +193,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  notificationBadge: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: "#ff4b8d",
+    borderWidth: 1,
+    borderColor: "#fff",
+  },
   searchBar: {
     flexDirection: "row",
     alignItems: "center",
@@ -169,6 +223,13 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     color: "#999",
     fontSize: 15,
+  },
+  categoryContainer: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  categoryList: {
+    paddingHorizontal: 20,
   },
   sectionContainer: {
     marginTop: 25,
