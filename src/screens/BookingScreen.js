@@ -234,7 +234,7 @@ const BookingScreen = ({ route, navigation }) => {
               "Захиалга",
               "Салон сонгох",
               "Мэргэжилтэн сонгох",
-              "Өдөр & цаг", // Combined date and time step
+              "Өдөр & цаг",
               "Баталгаажуулалт",
             ][currentStep]
           }
