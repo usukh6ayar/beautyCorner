@@ -8,6 +8,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { appointments } from "../mockData/appointments";
+import AppointmentCard from "../components/AppointmentCard";
 
 const AppointmentsScreen = () => {
   const getStatusColor = (status) => {
@@ -34,27 +35,11 @@ const AppointmentsScreen = () => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {appointments.map((appointment) => (
-          <TouchableOpacity key={appointment.id} style={styles.appointmentCard}>
-            <View style={styles.appointmentHeader}>
-              <Text style={styles.date}>{appointment.date}</Text>
-              <Text
-                style={[
-                  styles.status,
-                  { color: getStatusColor(appointment.status) },
-                ]}
-              >
-                {appointment.status.charAt(0).toUpperCase() +
-                  appointment.status.slice(1)}
-              </Text>
-            </View>
-            <View style={styles.appointmentDetails}>
-              <Text style={styles.time}>{appointment.time}</Text>
-              <Text style={styles.duration}>
-                Duration: {appointment.duration} min
-              </Text>
-              <Text style={styles.price}>Price: ₮{appointment.price}</Text>
-            </View>
-          </TouchableOpacity>
+          <AppointmentCard
+            key={appointment.id}
+            appointment={appointment}
+            onPress={() => handleAppointmentPress(appointment)}
+          />
         ))}
       </ScrollView>
     </SafeAreaView>

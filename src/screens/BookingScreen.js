@@ -12,6 +12,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { salons } from "../mockData/salons";
 import { stylists } from "../mockData/stylists";
 import { SafeAreaView } from "react-native-safe-area-context";
+import BookingForm from "../components/BookingForm";
+import Calendar from "../components/Calendar";
+import TimeSlot from "../components/TimeSlot";
+import AppointmentCard from "../components/AppointmentCard";
 
 const BookingScreen = ({ route, navigation }) => {
   const { service } = route.params;
@@ -19,50 +23,7 @@ const BookingScreen = ({ route, navigation }) => {
   const [selectedStylist, setSelectedStylist] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [currentStep, setCurrentStep] = useState(1); // 1: Salon, 2: Stylist, 3: Date, 4: Time, 5: Confirmation
-
-  // Generate dates for the next 14 days
-  const generateDates = () => {
-    const dates = [];
-    const today = new Date();
-
-    for (let i = 0; i < 14; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      dates.push({
-        fullDate: date,
-        day: date.toLocaleString("en-us", { weekday: "short" }),
-        dayNumber: date.getDate(),
-        month: date.toLocaleString("en-us", { month: "short" }),
-        formattedDate: `${date.getFullYear()}-${String(
-          date.getMonth() + 1
-        ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`,
-      });
-    }
-
-    return dates;
-  };
-
-  // Generate time slots from 9 AM to 6 PM
-  const generateTimeSlots = () => {
-    const slots = [];
-    let hour = 9;
-
-    while (hour <= 18) {
-      if (hour < 18) {
-        slots.push(`${hour % 12 || 12}:00 ${hour < 12 ? "AM" : "PM"}`);
-        slots.push(`${hour % 12 || 12}:30 ${hour < 12 ? "AM" : "PM"}`);
-      } else {
-        slots.push(`${hour % 12 || 12}:00 ${hour < 12 ? "AM" : "PM"}`);
-      }
-      hour++;
-    }
-
-    return slots;
-  };
-
-  const dates = generateDates();
-  const timeSlots = generateTimeSlots();
+  const [currentStep, setCurrentStep] = useState(1);
 
   const handleSalonSelect = (salon) => {
     setSelectedSalon(salon);
@@ -85,7 +46,6 @@ const BookingScreen = ({ route, navigation }) => {
   };
 
   const handleConfirmBooking = () => {
-    // Here you would typically make an API call to save the booking
     Alert.alert(
       "Баталгаажуулалт",
       "Таны захиалга амжилттай бүртгэгдлээ! Баярлалаа.",
@@ -109,64 +69,23 @@ const BookingScreen = ({ route, navigation }) => {
     );
   };
 
-  const renderStepIndicator = () => (
-    <View style={styles.stepIndicator}>
-      {[1, 2, 3, 4, 5].map((step) => (
-        <View key={step} style={styles.stepContainer}>
-          <View
-            style={[
-              styles.stepDot,
-              currentStep >= step && styles.activeStepDot,
-            ]}
-          />
-          {step < 5 && (
-            <View
-              style={[
-                styles.stepLine,
-                currentStep > step && styles.activeStepLine,
-              ]}
-            />
-          )}
-        </View>
-      ))}
-    </View>
-  );
-
   const renderSalonSelection = () => (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Text style={styles.sectionTitle}>Салон сонгох</Text>
       {salons.map((salon) => (
-        <TouchableOpacity
+        <AppointmentCard
           key={salon.id}
-          style={[
-            styles.selectionCard,
-            selectedSalon?.id === salon.id && styles.selectedCard,
-          ]}
+          appointment={{
+            id: salon.id,
+            name: salon.name,
+            address: salon.address,
+            rating: salon.rating,
+            imageUrl: salon.imageUrl,
+            workingHours: salon.workingHours,
+          }}
+          isSelected={selectedSalon?.id === salon.id}
           onPress={() => handleSalonSelect(salon)}
-        >
-          <Image source={{ uri: salon.imageUrl }} style={styles.cardImage} />
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTitle}>{salon.name}</Text>
-            <Text style={styles.cardSubtitle} numberOfLines={1}>
-              {salon.address}
-            </Text>
-            <View style={styles.cardDetails}>
-              <View style={styles.ratingContainer}>
-                <Ionicons name="star" size={14} color="#FFD700" />
-                <Text style={styles.rating}>{salon.rating}</Text>
-              </View>
-              <Text style={styles.workingHours}>{salon.workingHours}</Text>
-            </View>
-          </View>
-          {selectedSalon?.id === salon.id && (
-            <Ionicons
-              name="checkmark-circle"
-              size={24}
-              color="#ff4b8d"
-              style={styles.checkIcon}
-            />
-          )}
-        </TouchableOpacity>
+        />
       ))}
     </ScrollView>
   );
@@ -175,118 +94,31 @@ const BookingScreen = ({ route, navigation }) => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <Text style={styles.sectionTitle}>Мэргэжилтэн сонгох</Text>
       {stylists.map((stylist) => (
-        <TouchableOpacity
+        <AppointmentCard
           key={stylist.id}
-          style={[
-            styles.selectionCard,
-            selectedStylist?.id === stylist.id && styles.selectedCard,
-          ]}
+          appointment={{
+            id: stylist.id,
+            name: stylist.name,
+            specialty: stylist.specialty,
+            rating: stylist.rating,
+            imageUrl: stylist.imageUrl,
+            experience: stylist.experience,
+          }}
+          isSelected={selectedStylist?.id === stylist.id}
           onPress={() => handleStylistSelect(stylist)}
-        >
-          <Image
-            source={{ uri: stylist.imageUrl }}
-            style={styles.stylistImage}
-          />
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTitle}>{stylist.name}</Text>
-            <Text style={styles.cardSubtitle}>{stylist.specialty}</Text>
-            <View style={styles.cardDetails}>
-              <View style={styles.ratingContainer}>
-                <Ionicons name="star" size={14} color="#FFD700" />
-                <Text style={styles.rating}>{stylist.rating}</Text>
-              </View>
-              <Text style={styles.experience}>{stylist.experience}</Text>
-            </View>
-          </View>
-          {selectedStylist?.id === stylist.id && (
-            <Ionicons
-              name="checkmark-circle"
-              size={24}
-              color="#ff4b8d"
-              style={styles.checkIcon}
-            />
-          )}
-        </TouchableOpacity>
+        />
       ))}
     </ScrollView>
   );
 
-  const renderDateSelection = () => (
-    <View>
-      <Text style={styles.sectionTitle}>Өдөр сонгох</Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.dateContainer}
-      >
-        {dates.map((date) => (
-          <TouchableOpacity
-            key={date.formattedDate}
-            style={[
-              styles.dateCard,
-              selectedDate?.formattedDate === date.formattedDate &&
-                styles.selectedDateCard,
-            ]}
-            onPress={() => handleDateSelect(date)}
-          >
-            <Text
-              style={[
-                styles.dayText,
-                selectedDate?.formattedDate === date.formattedDate &&
-                  styles.selectedDateText,
-              ]}
-            >
-              {date.day}
-            </Text>
-            <Text
-              style={[
-                styles.dateNumber,
-                selectedDate?.formattedDate === date.formattedDate &&
-                  styles.selectedDateText,
-              ]}
-            >
-              {date.dayNumber}
-            </Text>
-            <Text
-              style={[
-                styles.monthText,
-                selectedDate?.formattedDate === date.formattedDate &&
-                  styles.selectedDateText,
-              ]}
-            >
-              {date.month}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
-  );
-
-  const renderTimeSelection = () => (
-    <View>
-      <Text style={styles.sectionTitle}>Цаг сонгох</Text>
-      <View style={styles.timeContainer}>
-        {timeSlots.map((time) => (
-          <TouchableOpacity
-            key={time}
-            style={[
-              styles.timeCard,
-              selectedTime === time && styles.selectedTimeCard,
-            ]}
-            onPress={() => handleTimeSelect(time)}
-          >
-            <Text
-              style={[
-                styles.timeText,
-                selectedTime === time && styles.selectedTimeText,
-              ]}
-            >
-              {time}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
+  const renderDateAndTimeSelection = () => (
+    <BookingForm
+      selectedDate={selectedDate}
+      selectedTime={selectedTime}
+      onDateSelect={handleDateSelect}
+      onTimeSelect={handleTimeSelect}
+      onSubmit={() => setCurrentStep(5)}
+    />
   );
 
   const renderConfirmation = () => (
@@ -306,30 +138,32 @@ const BookingScreen = ({ route, navigation }) => {
         <View style={styles.detailRow}>
           <Ionicons name="business-outline" size={20} color="#666" />
           <Text style={styles.detailLabel}>Салон:</Text>
-          <Text style={styles.detailValue}>{selectedSalon?.name || ""}</Text>
+          <Text style={styles.detailValue}>{selectedSalon?.name}</Text>
         </View>
 
         <View style={styles.detailRow}>
           <Ionicons name="person-outline" size={20} color="#666" />
           <Text style={styles.detailLabel}>Мэргэжилтэн:</Text>
-          <Text style={styles.detailValue}>{selectedStylist?.name || ""}</Text>
+          <Text style={styles.detailValue}>{selectedStylist?.name}</Text>
         </View>
 
-        <View style={styles.detailRow}>
-          <Ionicons name="calendar-outline" size={20} color="#666" />
-          <Text style={styles.detailLabel}>Өдөр:</Text>
-          <Text style={styles.detailValue}>
-            {selectedDate
-              ? `${selectedDate.dayNumber} ${selectedDate.month}`
-              : ""}
-          </Text>
-        </View>
+        {selectedDate && (
+          <View style={styles.detailRow}>
+            <Ionicons name="calendar-outline" size={20} color="#666" />
+            <Text style={styles.detailLabel}>Өдөр:</Text>
+            <Text style={styles.detailValue}>
+              {selectedDate.dayNumber} {selectedDate.month}
+            </Text>
+          </View>
+        )}
 
-        <View style={styles.detailRow}>
-          <Ionicons name="time-outline" size={20} color="#666" />
-          <Text style={styles.detailLabel}>Цаг:</Text>
-          <Text style={styles.detailValue}>{selectedTime || ""}</Text>
-        </View>
+        {selectedTime && (
+          <View style={styles.detailRow}>
+            <Ionicons name="time-outline" size={20} color="#666" />
+            <Text style={styles.detailLabel}>Цаг:</Text>
+            <Text style={styles.detailValue}>{selectedTime}</Text>
+          </View>
+        )}
       </View>
 
       <TouchableOpacity
@@ -341,6 +175,32 @@ const BookingScreen = ({ route, navigation }) => {
     </View>
   );
 
+  const renderStepIndicator = () => {
+    const totalSteps = 5;
+    return (
+      <View style={styles.stepIndicator}>
+        {Array.from({ length: totalSteps }).map((_, index) => (
+          <View key={index} style={styles.stepContainer}>
+            <View
+              style={[
+                styles.stepDot,
+                currentStep >= index + 1 && styles.activeStepDot,
+              ]}
+            />
+            {index < totalSteps - 1 && (
+              <View
+                style={[
+                  styles.stepLine,
+                  currentStep > index + 1 && styles.activeStepLine,
+                ]}
+              />
+            )}
+          </View>
+        ))}
+      </View>
+    );
+  };
+
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
@@ -348,9 +208,8 @@ const BookingScreen = ({ route, navigation }) => {
       case 2:
         return renderStylistSelection();
       case 3:
-        return renderDateSelection();
       case 4:
-        return renderTimeSelection();
+        return renderDateAndTimeSelection();
       case 5:
         return renderConfirmation();
       default:
@@ -358,20 +217,10 @@ const BookingScreen = ({ route, navigation }) => {
     }
   };
 
-  const canGoBack = currentStep > 1;
-  const stepTitle = [
-    "Захиалга",
-    "Салон сонгох",
-    "Мэргэжилтэн сонгох",
-    "Өдөр сонгох",
-    "Цаг сонгох",
-    "Баталгаажуулах",
-  ][currentStep];
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        {canGoBack && (
+        {currentStep > 1 && (
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => setCurrentStep(currentStep - 1)}
@@ -379,12 +228,21 @@ const BookingScreen = ({ route, navigation }) => {
             <Ionicons name="arrow-back" size={24} color="#333" />
           </TouchableOpacity>
         )}
-        <Text style={styles.headerTitle}>{stepTitle}</Text>
+        <Text style={styles.headerTitle}>
+          {
+            [
+              "Захиалга",
+              "Салон сонгох",
+              "Мэргэжилтэн сонгох",
+              "Өдөр & цаг", // Combined date and time step
+              "Баталгаажуулалт",
+            ][currentStep]
+          }
+        </Text>
         <View style={styles.placeholder} />
       </View>
 
       {renderStepIndicator()}
-
       <View style={styles.content}>{renderStepContent()}</View>
     </SafeAreaView>
   );
@@ -457,142 +315,6 @@ const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 15,
   },
-  selectionCard: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    marginBottom: 15,
-    padding: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  selectedCard: {
-    borderWidth: 1,
-    borderColor: "#ff4b8d",
-  },
-  cardImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 8,
-  },
-  stylistImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-  },
-  cardContent: {
-    flex: 1,
-    marginLeft: 15,
-  },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 5,
-  },
-  cardSubtitle: {
-    fontSize: 14,
-    color: "#666",
-  },
-  cardDetails: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 5,
-  },
-  ratingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  rating: {
-    fontSize: 14,
-    color: "#ff4b8d",
-    marginLeft: 5,
-  },
-  workingHours: {
-    fontSize: 12,
-    color: "#666",
-  },
-  experience: {
-    fontSize: 12,
-    color: "#666",
-  },
-  checkIcon: {
-    position: "absolute",
-    top: 15,
-    right: 15,
-  },
-  dateContainer: {
-    paddingVertical: 10,
-  },
-  dateCard: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 15,
-    marginRight: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  selectedDateCard: {
-    borderWidth: 1,
-    borderColor: "#ff4b8d",
-  },
-  dayText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  dateNumber: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#333",
-    marginVertical: 5,
-  },
-  monthText: {
-    fontSize: 14,
-    color: "#666",
-  },
-  selectedDateText: {
-    color: "#ff4b8d",
-  },
-  timeContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-  timeCard: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 15,
-    marginBottom: 10,
-    width: "48%",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  selectedTimeCard: {
-    borderWidth: 1,
-    borderColor: "#ff4b8d",
-  },
-  timeText: {
-    fontSize: 16,
-    color: "#333",
-  },
-  selectedTimeText: {
-    color: "#ff4b8d",
-  },
   confirmationContainer: {
     backgroundColor: "#fff",
     borderRadius: 12,
@@ -661,5 +383,28 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
   },
+  sectionContent: {
+    marginTop: 10,
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
+  },
+  cardContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 15,
+    marginBottom: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#f0f0f0",
+    marginVertical: 15,
+  },
 });
+
 export default BookingScreen;
