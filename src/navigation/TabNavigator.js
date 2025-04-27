@@ -1,7 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { Platform, View } from "react-native";
+import { Platform, View, StyleSheet } from "react-native";
 
 import HomeScreen from "../screens/HomeScreen";
 import ServicesScreen from "../screens/ServicesScreen";
@@ -36,7 +36,11 @@ const TabNavigator = () => {
               iconName = focused ? "person" : "person-outline";
               break;
           }
-          return <Ionicons name={iconName} size={24} color={color} />;
+          return (
+            <View style={focused ? styles.iconContainer : null}>
+              <Ionicons name={iconName} size={24} color={color} />
+            </View>
+          );
         },
         tabBarActiveTintColor: "#ff4b8d",
         tabBarInactiveTintColor: "gray",
@@ -45,17 +49,23 @@ const TabNavigator = () => {
           bottom: Platform.OS === "ios" ? 24 : 12,
           left: 20,
           right: 20,
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
+          backgroundColor: "rgba(255, 255, 255, 0.98)",
           borderRadius: 20,
           height: 70,
+          paddingBottom: Platform.OS === "ios" ? 20 : 15,
           elevation: 10,
           shadowColor: "#000",
-          shadowOpacity: 0.2,
-          shadowRadius: 10,
+          shadowOpacity: 0.15,
+          shadowRadius: 15,
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: "600",
+          marginTop: -5,
         },
       })}
     >
@@ -87,5 +97,13 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    backgroundColor: "rgba(255, 75, 141, 0.1)",
+    padding: 8,
+    borderRadius: 12,
+  },
+});
 
 export default TabNavigator;
