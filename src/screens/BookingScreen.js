@@ -11,6 +11,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { salons } from "../mockData/salons";
 import { stylists } from "../mockData/stylists";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const BookingScreen = ({ route, navigation }) => {
   const { service } = route.params;
@@ -368,7 +369,7 @@ const BookingScreen = ({ route, navigation }) => {
   ][currentStep];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         {canGoBack && (
           <TouchableOpacity
@@ -385,7 +386,7 @@ const BookingScreen = ({ route, navigation }) => {
       {renderStepIndicator()}
 
       <View style={styles.content}>{renderStepContent()}</View>
-    </View>
+    </SafeAreaView>
   );
 };
 

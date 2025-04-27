@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigator from "./TabNavigator";
 import BookingScreen from "../screens/BookingScreen";
+import PaymentScreen from "../screens/PaymentScreen";
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,11 @@ const AppNavigator = () => {
         name="Booking"
         component={BookingScreen}
         options={{ title: "Book Appointment" }}
+      />
+      <Stack.Screen
+        name="Payment"
+        component={PaymentScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
