@@ -5,7 +5,7 @@ import { Platform, View, StyleSheet } from "react-native";
 
 import HomeScreen from "../screens/HomeScreen";
 import AppointmentsScreen from "../screens/AppointmentsScreen";
-import FavoritesScreen from "../screens/FavoritesScreen"; // You'll need to create this
+import FavoritesScreen from "../screens/FavoritesScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
@@ -29,7 +29,7 @@ const TabNavigator = () => {
               iconName = focused ? "heart" : "heart-outline";
               break;
             case "Profile":
-              iconName = focused ? "person" : "person-outline";
+              iconName = focused ? "person-circle" : "person-circle-outline";
               break;
           }
           return (
@@ -38,7 +38,7 @@ const TabNavigator = () => {
             </View>
           );
         },
-        tabBarActiveTintColor: "#ff4b8d",
+        tabBarActiveTintColor: "#0066FF",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
           position: "absolute",
@@ -57,33 +57,35 @@ const TabNavigator = () => {
             width: 0,
             height: 4,
           },
+          borderTopWidth: 0,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: "600",
           marginTop: -5,
+          marginBottom: 5,
         },
       })}
     >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
-        options={{ title: "Нүүр" }}
+        options={{ title: "Home" }}
       />
       <Tab.Screen
         name="Appointments"
         component={AppointmentsScreen}
-        options={{ title: "Захиалга" }}
+        options={{ title: "Bookings" }}
       />
       <Tab.Screen
         name="Favorites"
         component={FavoritesScreen}
-        options={{ title: "Дуртай" }}
+        options={{ title: "Favourites" }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ title: "Профайл" }}
+        options={{ title: "Profile" }}
       />
     </Tab.Navigator>
   );
@@ -91,7 +93,7 @@ const TabNavigator = () => {
 
 const styles = StyleSheet.create({
   iconContainer: {
-    backgroundColor: "rgba(255, 75, 141, 0.1)",
+    backgroundColor: "rgba(0, 102, 255, 0.1)",
     padding: 8,
     borderRadius: 12,
   },
