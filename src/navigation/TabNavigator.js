@@ -4,9 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { Platform, View, StyleSheet } from "react-native";
 
 import HomeScreen from "../screens/HomeScreen";
-import ServicesScreen from "../screens/ServicesScreen";
-import StylistsScreen from "../screens/StylistsScreen";
 import AppointmentsScreen from "../screens/AppointmentsScreen";
+import FavoritesScreen from "../screens/FavoritesScreen"; // You'll need to create this
 import ProfileScreen from "../screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
@@ -23,14 +22,11 @@ const TabNavigator = () => {
             case "Home":
               iconName = focused ? "home" : "home-outline";
               break;
-            case "Services":
-              iconName = focused ? "cut" : "cut-outline";
-              break;
-            case "Stylists":
-              iconName = focused ? "people" : "people-outline";
-              break;
             case "Appointments":
               iconName = focused ? "calendar" : "calendar-outline";
+              break;
+            case "Favorites":
+              iconName = focused ? "heart" : "heart-outline";
               break;
             case "Profile":
               iconName = focused ? "person" : "person-outline";
@@ -75,19 +71,14 @@ const TabNavigator = () => {
         options={{ title: "Нүүр" }}
       />
       <Tab.Screen
-        name="Services"
-        component={ServicesScreen}
-        options={{ title: "Үйлчилгээ" }}
-      />
-      <Tab.Screen
-        name="Stylists"
-        component={StylistsScreen}
-        options={{ title: "Мэргэжилтэн" }}
-      />
-      <Tab.Screen
         name="Appointments"
         component={AppointmentsScreen}
         options={{ title: "Захиалга" }}
+      />
+      <Tab.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{ title: "Дуртай" }}
       />
       <Tab.Screen
         name="Profile"

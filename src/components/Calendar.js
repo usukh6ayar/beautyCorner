@@ -1,134 +1,128 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
-  ScrollView,
   TouchableOpacity,
+  ScrollView,
+  StyleSheet,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import CustomHeader from "./CustomHeader";
+import CustomButton from "./CustomButton";
+import DateCard from "./DateCard";
+import TimeCard from "./TimeCard";
 
-const Calendar = ({ selectedDate, onSelectDate }) => {
-  const generateDates = () => {
-    const dates = [];
-    const today = new Date();
+const Calendar = () => {
+  const navigation = useNavigation();
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
 
-    for (let i = 0; i < 14; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      dates.push({
-        fullDate: date,
-        day: date.toLocaleString("en-us", { weekday: "short" }),
-        dayNumber: date.getDate(),
-        month: date.toLocaleString("en-us", { month: "short" }),
-        formattedDate: date.toISOString().split("T")[0],
+  const dates = [
+    { id: 1, day: "Да", date: "29" },
+    { id: 2, day: "Мя", date: "30" },
+    { id: 3, day: "Лх", date: "1" },
+    { id: 4, day: "Пү", date: "2" },
+    { id: 5, day: "Ба", date: "3" },
+    { id: 6, day: "Бя", date: "4" },
+    { id: 7, day: "Ня", date: "5" },
+  ];
+
+  const times = [
+    "09:00 AM",
+    "10:00 AM",
+    "11:00 AM",
+    "12:00 PM",
+    "01:00 PM",
+    "02:00 PM",
+    "03:00 PM",
+    "04:00 PM",
+  ];
+
+  const handleNext = () => {
+    if (selectedDate && selectedTime) {
+      navigation.navigate("SelectServiceScreen", {
+        selectedDate,
+        selectedTime,
       });
     }
-
-    return dates;
   };
-
-  const dates = generateDates();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Өдөр сонгох</Text>
+      <CustomHeader title="Өдөр, цаг сонгох" showBackButton />
+
+      <Text style={styles.sectionTitle}>Өдөр сонгох</Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
+        style={styles.scrollSection}
       >
-        {dates.map((date) => (
-          <TouchableOpacity
-            key={date.formattedDate}
-            style={[
-              styles.dateCard,
-              selectedDate?.formattedDate === date.formattedDate &&
-                styles.selectedCard,
-            ]}
-            onPress={() => onSelectDate(date)}
-          >
-            <Text
-              style={[
-                styles.dayText,
-                selectedDate?.formattedDate === date.formattedDate &&
-                  styles.selectedText,
-              ]}
-            >
-              {date.day}
-            </Text>
-            <Text
-              style={[
-                styles.dayNumber,
-                selectedDate?.formattedDate === date.formattedDate &&
-                  styles.selectedText,
-              ]}
-            >
-              {date.dayNumber}
-            </Text>
-            <Text
-              style={[
-                styles.monthText,
-                selectedDate?.formattedDate === date.formattedDate &&
-                  styles.selectedText,
-              ]}
-            >
-              {date.month}
-            </Text>
-          </TouchableOpacity>
+        {dates.map((item) => (
+          <DateCard
+            key={item.id}
+            day={item.day}
+            date={item.date}
+            isSelected={selectedDate === item.id}
+            onPress={() => setSelectedDate(item.id)}
+          />
         ))}
       </ScrollView>
+
+      <Text style={styles.sectionTitle}>Цаг сонгох</Text>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.scrollSection}
+      >
+        {times.map((time, index) => (
+          <TimeCard
+            key={index}
+            time={time}
+            isSelected={selectedTime === time}
+            onPress={() => setSelectedTime(time)}
+          />
+        ))}
+      </ScrollView>
+
+      <View style={styles.buttonContainer}>
+        <CustomButton
+          title="Буцах"
+          onPress={() => navigation.goBack()}
+          variant="secondary"
+          style={styles.button}
+        />
+        <CustomButton
+          title="Дараах"
+          onPress={handleNext}
+          disabled={!(selectedDate && selectedTime)}
+          style={styles.button}
+        />
+      </View>
     </View>
   );
 };
 
+export default Calendar;
+
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 12,
-    paddingHorizontal: 20,
-  },
-  scrollContent: {
-    paddingHorizontal: 20,
-  },
-  dateCard: {
+    flex: 1,
     backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 12,
-    marginRight: 12,
-    alignItems: "center",
-    minWidth: 70,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
-  selectedCard: {
-    backgroundColor: "#ff4b8d",
-  },
-  dayText: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 4,
-  },
-  dayNumber: {
-    fontSize: 20,
-    fontWeight: "bold",
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginTop: 20,
+    marginBottom: 10,
     color: "#333",
-    marginBottom: 4,
   },
-  monthText: {
-    fontSize: 14,
-    color: "#666",
+  scrollSection: { marginBottom: 20 },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 30,
   },
-  selectedText: {
-    color: "#fff",
-  },
+  button: { flex: 1, marginHorizontal: 5 },
 });
-
-export default Calendar;
