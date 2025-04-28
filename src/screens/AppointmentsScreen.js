@@ -27,9 +27,9 @@ const AppointmentsScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>My Appointments</Text>
+        <Text style={styles.headerTitle}>Миний захиалгууд</Text>
         <Text style={styles.headerSubtitle}>
-          Manage your upcoming appointments
+          Захиалсан үйлчилгээнүүдээ хянах{" "}
         </Text>
       </View>
 
