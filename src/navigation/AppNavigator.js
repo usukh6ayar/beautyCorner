@@ -5,50 +5,61 @@ import BookingScreen from "../screens/BookingScreen";
 import PaymentScreen from "../screens/PaymentScreen";
 import NotificationScreen from "../screens/NotificationScreen";
 import SearchScreen from "../screens/SearchScreen";
+import LoginScreen from "../screens/LoginScreen";
+import VerifyScreen from "../screens/VerifyScreen";
+import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        headerStyle: {
-          backgroundColor: "#fff",
-          elevation: 0,
-          shadowOpacity: 0,
-        },
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
-    >
-      <Stack.Screen
-        name="Main"
-        component={TabNavigator}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Booking"
-        component={BookingScreen}
-        options={{ title: "Book Appointment" }}
-      />
-      <Stack.Screen
-        name="Payment"
-        component={PaymentScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Notifications"
-        component={NotificationScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: "#fff",
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen
+          name="Verify"
+          component={VerifyScreen}
+          options={{ title: "Verify Phone" }}
+        />
+        <Stack.Screen
+          name="Main"
+          component={TabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Booking"
+          component={BookingScreen}
+          options={{ title: "Book Appointment" }}
+        />
+        <Stack.Screen
+          name="Payment"
+          component={PaymentScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Notifications"
+          component={NotificationScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
