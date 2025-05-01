@@ -15,6 +15,7 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        initialRouteName="Main" // Shuud home oos ehluuleh tohirgoo
         screenOptions={{
           headerShown: false,
           headerStyle: {
