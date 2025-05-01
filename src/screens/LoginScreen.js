@@ -22,7 +22,7 @@ const LoginScreen = () => {
 
   return (
     <ImageBackground
-      source={require("../../assets/adaptive-icon.png")}
+      //   source={require("")}
       style={styles.background}
       resizeMode="cover"
     >

@@ -14,10 +14,13 @@ import { user } from "../mockData/user";
 // Import icons from react-native-vector-icons
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useTheme } from "../providers/ThemeProvider";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import ThemeToggle from "../components/ThemeToggle";
 
 const ProfileScreen = () => {
   const [activeTab, setActiveTab] = useState("personal");
+  const { colors, spacing } = useTheme();
 
   // Helper function to render the right icon from the right library
   const renderIcon = (iconName, size = 20, color = "#ff4b8d") => {
@@ -32,7 +35,9 @@ const ProfileScreen = () => {
     } else if (iconName === "camera") {
       return <Ionicons name="camera" size={size} color={color} />;
     } else if (iconName === "bell") {
-      return <Ionicons name="notifications-outline" size={size} color={color} />;
+      return (
+        <Ionicons name="notifications-outline" size={size} color={color} />
+      );
     } else if (iconName === "lock") {
       return <Ionicons name="lock-closed-outline" size={size} color={color} />;
     } else if (iconName === "help-circle") {
@@ -45,9 +50,7 @@ const ProfileScreen = () => {
 
   const renderInfoItem = (icon, label, value) => (
     <View style={styles.infoItem}>
-      <View style={styles.iconContainer}>
-        {renderIcon(icon)}
-      </View>
+      <View style={styles.iconContainer}>{renderIcon(icon)}</View>
       <View style={styles.infoContent}>
         <Text style={styles.infoLabel}>{label}</Text>
         <Text style={styles.infoValue}>{value}</Text>
@@ -56,40 +59,53 @@ const ProfileScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView
+      style={[styles.safeArea, { backgroundColor: colors.screenBackground }]}
+    >
+      <View
+        style={[
+          styles.headerContainer,
+          { backgroundColor: colors.screenBackground },
+        ]}
+      >
+        <Text style={[styles.headerTitle, { color: colors.text }]}>
+          Профайл
+        </Text>
+        <View style={styles.headerActions}>
+          <ThemeToggle />
+        </View>
+      </View>
       <StatusBar barStyle="dark-content" backgroundColor="#f7f7f7" />
-      
+
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {/* Profile Header */}
         <View style={styles.profileHeader}>
           <View style={styles.coverPhoto} />
-          
+
           <View style={styles.avatarContainer}>
             <Image source={{ uri: user.avatar }} style={styles.avatar} />
             <TouchableOpacity style={styles.editAvatarButton}>
               {renderIcon("camera", 16, "#fff")}
             </TouchableOpacity>
           </View>
-          
+
           <Text style={styles.name}>{user.name}</Text>
           <View style={styles.statusBadge}>
             <Text style={styles.statusText}>Premium Гишүүн</Text>
           </View>
         </View>
 
-
-
         {/* Content Area */}
         <View style={styles.contentCard}>
           {activeTab === "personal" ? (
             <>
               <Text style={styles.contentTitle}>Хувийн мэдээлэл</Text>
-              
+
               {renderInfoItem("mail", "Имэйл", user.email)}
               {renderInfoItem("phone", "Утас", user.phone)}
               {renderInfoItem("location", "Хаяг", "Улаанбаатар, Монгол")}
               {renderInfoItem("card", "Төлбөрийн хэлбэр", "Visa **** 3452")}
-              
+
               <TouchableOpacity style={styles.editButton}>
                 <Text style={styles.editButtonText}>Мэдээлэл засварлах</Text>
               </TouchableOpacity>
@@ -97,7 +113,9 @@ const ProfileScreen = () => {
           ) : (
             <View style={styles.favoritesContainer}>
               <Text style={styles.contentTitle}>Миний дуртай</Text>
-              <Text style={styles.emptyStateText}>Таны дуртай зүйлс одоогоор хоосон байна</Text>
+              <Text style={styles.emptyStateText}>
+                Таны дуртай зүйлс одоогоор хоосон байна
+              </Text>
             </View>
           )}
         </View>
@@ -105,21 +123,21 @@ const ProfileScreen = () => {
         {/* Settings Section */}
         <View style={styles.settingsCard}>
           <Text style={styles.contentTitle}>Тохиргоо</Text>
-          
+
           <TouchableOpacity style={styles.settingsItem}>
             {renderIcon("bell", 20, "#555")}
             <Text style={styles.settingsText}>Мэдэгдлүүд</Text>
             <View style={styles.spacer} />
             {renderIcon("chevron-right", 18, "#bbb")}
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={styles.settingsItem}>
             {renderIcon("lock", 20, "#555")}
             <Text style={styles.settingsText}>Нууцлал</Text>
             <View style={styles.spacer} />
             {renderIcon("chevron-right", 18, "#bbb")}
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={styles.settingsItem}>
             {renderIcon("help-circle", 20, "#555")}
             <Text style={styles.settingsText}>Тусламж</Text>
@@ -127,7 +145,7 @@ const ProfileScreen = () => {
             {renderIcon("chevron-right", 18, "#bbb")}
           </TouchableOpacity>
         </View>
-        
+
         {/* Logout Button */}
         <TouchableOpacity style={styles.logoutButton}>
           <Text style={styles.logoutText}>Гарах</Text>
@@ -144,7 +162,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f7f7f7",
   },
-
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+  },
+  headerActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+  },
   container: {
     flex: 1,
   },
