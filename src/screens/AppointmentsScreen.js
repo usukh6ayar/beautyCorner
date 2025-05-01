@@ -11,12 +11,14 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { appointments } from "../mockData/appointments";
+import { useNavigation } from "@react-navigation/native";
 
 export default function BookingsScreen() {
   const [activeTab, setActiveTab] = useState("Upcoming");
   const [cancelModalVisible, setCancelModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const navigation = useNavigation();
 
   const filteredAppointments = appointments.filter((item) => {
     if (activeTab === "Upcoming")
@@ -83,7 +85,7 @@ export default function BookingsScreen() {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Bookings</Text>
