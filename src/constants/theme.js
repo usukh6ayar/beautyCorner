@@ -1,32 +1,42 @@
 export const Theme = {
   colors: {
     light: {
-      primary: "#3A6B8E",
-      secondary: "#FF6B6B",
-      screenBackground: "#FFFFFF",
-      cardBackground: "#F5F8FA",
-      text: "#2D3436",
-      textSecondary: "#57606F",
-      border: "#E0E6ED",
+      primary: "#7C73E6", // Зөөлөн ягаан-цэнхэр
+      secondary: "#FF8A7A", // Уян хатан корал
+      tertiary: "#2EB8AC", // Тайван ногоон-цэнхэр
+      screenBackground: "#F8F9FA",
+      cardBackground: "#FFFFFF",
+      text: "#2D3748", // Хар саарал
+      textSecondary: "#718096",
+      border: "#E2E8F0",
+      success: "#38A169", // Байгалийн ногоон
+      warning: "#DD6B20", // Жигд улбар шар
+      error: "#C53030", // Зөөлөн улаан
+      info: "#4299E1", // Цэнхэр тэнгэр
     },
     dark: {
-      primary: "#5A8CAD",
-      secondary: "#FF8A80",
-      screenBackground: "#1A1A1A",
-      cardBackground: "#2D2D2D",
-      text: "#FFFFFF",
-      textSecondary: "#B0B0B0",
-      border: "#404040",
+      primary: "#948CE6", // Цайвар ягаан-цэнхэр
+      secondary: "#FF9F8E", // Цайвар корал
+      tertiary: "#4FD1C5", // Цайвар циан
+      screenBackground: "#1A202C",
+      cardBackground: "#2D3748",
+      text: "#E2E8F0", // Цайвар саарал
+      textSecondary: "#A0AEC0",
+      border: "#4A5568",
+      success: "#48BB78", // Цайвар ногоон
+      warning: "#ED8936", // Цайвар улбар шар
+      error: "#FC8181", // Цайвар улаан
+      info: "#63B3ED", // Цайвар цэнхэр
     },
     common: {
       white: "#FFFFFF",
-      black: "#000000",
-      success: "#4CAF50",
-      warning: "#FFC107",
-      error: "#FF5252",
+      black: "#1A202C",
+      disabled: "#CBD5E0", // Зөөлөн саарал
+      pressed: "rgba(124, 115, 230, 0.1)", // Primary 10% opacity
     },
   },
   spacing: {
+    base: 4,
     0: 0,
     1: 4, // xs
     2: 8, // sm
@@ -34,29 +44,78 @@ export const Theme = {
     4: 16, // lg
     5: 24, // xl
     6: 32, // xxl
+    7: 48, // 3xl
+    8: 64, // 4xl
   },
-  borderRadius: { small: 4, medium: 8, large: 16, full: 100 },
+  borderRadius: {
+    none: 0, // 0px
+    xs: 2, // 2px - жижиг элементүүдэд
+    sm: 4, // 4px - toggle, tag
+    base: 8, // 8px - кнопк, карт
+    md: 12, // 12px - модал, том карт
+    lg: 16, // 16px - их радиустай элементүүд
+    xl: 24, // 24px - онцгой дугуй хэлбэр
+    full: 9999, // Бүтэн дугуй хэлбэр
+  },
   typography: {
-    h1: { fontSize: 24, fontWeight: "700", lineHeight: 32 },
-    h2: { fontSize: 20, fontWeight: "700", lineHeight: 28 },
-    h3: { fontSize: 18, fontWeight: "600", lineHeight: 24 },
-    body: { fontSize: 16, lineHeight: 22 },
-    caption: { fontSize: 14, lineHeight: 20 },
+    h1: {
+      fontSize: 28,
+      lineHeight: 36,
+      fontWeight: "700",
+      letterSpacing: -0.8,
+    },
+    h2: {
+      fontSize: 24,
+      lineHeight: 32,
+      fontWeight: "600",
+      letterSpacing: -0.6,
+    },
+    h3: { fontSize: 20, lineHeight: 28, fontWeight: "600" },
+    bodyLg: { fontSize: 18, lineHeight: 26, fontWeight: "400" },
+    body: { fontSize: 16, lineHeight: 24, fontWeight: "400" },
+    caption: { fontSize: 14, lineHeight: 20, fontWeight: "400" },
+    overline: {
+      fontSize: 12,
+      lineHeight: 16,
+      fontWeight: "500",
+      letterSpacing: 0.8,
+    },
+    weights: {
+      light: "300",
+      regular: "400",
+      medium: "500",
+      semiBold: "600",
+      bold: "700",
+    },
   },
   shadows: {
-    small: {
+    xs: {
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.05,
+      shadowRadius: 2,
+      elevation: 1,
+    },
+    sm: {
       shadowColor: "#000",
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
       elevation: 2,
     },
-    medium: {
+    md: {
       shadowColor: "#000",
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.15,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
       shadowRadius: 6,
       elevation: 4,
+    },
+    lg: {
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.15,
+      shadowRadius: 8,
+      elevation: 6,
     },
   },
 };
