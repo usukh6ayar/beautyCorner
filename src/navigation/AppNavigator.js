@@ -8,6 +8,7 @@ import SearchScreen from "../screens/SearchScreen";
 import LoginScreen from "../screens/LoginScreen";
 import VerifyScreen from "../screens/VerifyScreen";
 import { NavigationContainer } from "@react-navigation/native";
+import SalonDetailScreen from "../screens/SalonDetailScreen"; //
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Main" // Shuud home oos ehluuleh tohirgoo
+        // initialRouteName="Login" // Shuud Login oos ehluuleh tohirgoo
         screenOptions={{
           headerShown: false,
           headerStyle: {
@@ -57,6 +59,12 @@ const AppNavigator = () => {
         <Stack.Screen
           name="Search"
           component={SearchScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="SalonDetailScreen"
+          component={SalonDetailScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
