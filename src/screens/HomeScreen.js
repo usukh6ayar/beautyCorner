@@ -73,6 +73,23 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.searchText}>Салон, үйлчилгээ хайх...</Text>
         </TouchableOpacity>
 
+        {/* Promotions */}
+        <View style={styles.promotionContainer}>
+          <Image
+            source={{ uri: "https://via.placeholder.com/400x150" }}
+            style={styles.promotionImage}
+          />
+          <View style={styles.promotionContent}>
+            <Text style={styles.promotionTitle}>Тусгай санал</Text>
+            <Text style={styles.promotionDescription}>
+              Энэ долоо хоногт үсний бүх үйлчилгээндээ 20%-ийн хямдрал аваарай!
+            </Text>
+            <TouchableOpacity style={styles.promotionButton}>
+              <Text style={styles.promotionButtonText}>Захиалах</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
         {/* Categories */}
         <FlatList
           data={[
@@ -125,23 +142,6 @@ const HomeScreen = ({ navigation }) => {
             ))}
           </ScrollView>
         </Section>
-
-        {/* Promotions */}
-        <View style={styles.promotionContainer}>
-          <Image
-            source={{ uri: "https://via.placeholder.com/400x150" }}
-            style={styles.promotionImage}
-          />
-          <View style={styles.promotionContent}>
-            <Text style={styles.promotionTitle}>Тусгай санал</Text>
-            <Text style={styles.promotionDescription}>
-              Энэ долоо хоногт үсний бүх үйлчилгээндээ 20%-ийн хямдрал аваарай!
-            </Text>
-            <TouchableOpacity style={styles.promotionButton}>
-              <Text style={styles.promotionButtonText}>Захиалах</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
