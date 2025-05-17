@@ -103,11 +103,8 @@ const HomeScreen = ({ navigation }) => {
           contentContainerStyle={styles.categoryList}
         />
 
-        {/* Featured Salons */}
-        <Section
-          title="Онцлох салонууд"
-          onPress={() => navigation.navigate("Services")}
-        >
+        {/* Recommend Salons */}
+        <Section title="Санал болгох салонууд">
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {featuredSalons.map((salon) => (
               <SalonCard key={salon.id} salon={salon} />
@@ -115,30 +112,20 @@ const HomeScreen = ({ navigation }) => {
           </ScrollView>
         </Section>
 
-        {/* Popular Services */}
-        <Section
-          title="Их борлуулалттай үйлчилгээ"
-          onPress={() => navigation.navigate("Services")}
-        >
-          <View style={styles.serviceGrid}>
-            {filteredServices.map((service) => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                onPress={() => navigation.navigate("Booking", { service })}
-              />
+        {/* Featured Salons */}
+        <Section title="Онцлох салонууд">
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {featuredSalons.map((salon) => (
+              <SalonCard key={salon.id} salon={salon} />
             ))}
-          </View>
+          </ScrollView>
         </Section>
 
-        {/* Top Stylists */}
-        <Section
-          title="Шилдэг мэргэжилтнүүд"
-          onPress={() => navigation.navigate("Stylists")}
-        >
+        {/* New Salons */}
+        <Section title="Шинээр нэмэгдсэн салонууд">
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {topStylists.map((stylist) => (
-              <StylistCard key={stylist.id} stylist={stylist} />
+            {featuredSalons.map((salon) => (
+              <SalonCard key={salon.id} salon={salon} />
             ))}
           </ScrollView>
         </Section>
